@@ -161,6 +161,8 @@
     <Compile Include="Controllers\CommonViewsController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ReservasController.cs" />
+    <Compile Include="Controllers\SalasController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Helpers\AjaxExtensions.cs" />
     <Compile Include="Helpers\Color.cs" />
@@ -2162,6 +2164,11 @@
     <Content Include="Views\Usuarios\Details.cshtml" />
     <Content Include="Views\Usuarios\Edit.cshtml" />
     <Content Include="Views\Usuarios\Index.cshtml" />
+    <Content Include="Views\Salas\Create.cshtml" />
+    <Content Include="Views\Salas\Delete.cshtml" />
+    <Content Include="Views\Salas\Details.cshtml" />
+    <Content Include="Views\Salas\Edit.cshtml" />
+    <Content Include="Views\Salas\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

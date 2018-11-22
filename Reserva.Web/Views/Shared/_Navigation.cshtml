@@ -32,11 +32,16 @@ else
             <li class="@Html.IsSelected("CommonViews", "Index")">
                 <a href="@Url.Action("Index", "CommonViews")"> <span class="nav-label">Home</span> <span class="label label-bmp pull-right"><i class="fa fa-home"></i></span> </a>
             </li>
-                <li class="@Html.IsSelected("Dashboard", "Index")">
-                    <a href="@Url.Action("Index", "Dashboard")">
-                        <span class="nav-label">Usuários</span>
-                    </a>
-                </li>
+            <li class="@Html.IsSelected("Usuarios", "Index")">
+                <a href="@Url.Action("Index", "Usuarios")">
+                    <span class="nav-label">Usuários</span>
+                </a>
+            </li>
+            <li class="@Html.IsSelected("Salas", "Index")">
+                <a href="@Url.Action("Index", "Salas")">
+                    <span class="nav-label">Salas</span>
+                </a>
+            </li>
         </ul>
     </div>
 }

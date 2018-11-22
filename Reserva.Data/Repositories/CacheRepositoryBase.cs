@@ -79,9 +79,9 @@ namespace Reserva.Data.Repositories
             });
         }
 
-        public override IEnumerable<TEntity> Query(Expression<Func<TEntity, bool>> filter = null, bool nolock = false)
+        public override IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> filter = null, bool nolock = false)
         {
-            return ThreadSafeCacheAccessAction(nolock: nolock, filter: filter);
+            return ThreadSafeCacheAccessAction(nolock: nolock, filter: filter).AsQueryable();
         }
 
 

@@ -40,5 +40,9 @@ namespace Reserva.Data.Context
         }
         
         public DbSet<Usuario> Clientes { get; set; }
+
+        public DbSet<Sala> Salas { get; set; }
+
+        public DbSet<ReservaSala> Reservas { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Reserva.Domain.Entities;
 
@@ -21,7 +22,7 @@ namespace Reserva.Domain.Interfaces.Data.Repositories
         bool HasAny(Expression<Func<TEntity, bool>> filter, bool nolock = false);
         TEntity GetById(TIdType id, bool nolock = false);
         TEntity SingleOrDefault(Expression<Func<TEntity, bool>> filter, bool nolock = false);
-        IEnumerable<TEntity> Query(Expression<Func<TEntity, bool>> filter = null, bool nolock = false);
+        IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> filter = null, bool nolock = false);
 
         int SqlCommand(string sqlCommand, params object[] parameters);
 

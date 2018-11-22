@@ -155,7 +155,7 @@ namespace Reserva.Data.Repositories
             return Context.SingleOrDefault(filter, nolock);
         }
 
-        public virtual IEnumerable<TEntity> Query(Expression<Func<TEntity, bool>> filter = null, bool nolock = false)
+        public virtual IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> filter = null, bool nolock = false)
         {
             return Context.Query(filter, nolock);
         }

@@ -77,6 +77,11 @@
   <ItemGroup>
     <Compile Include="Context\ReservaContext.cs" />
     <Compile Include="Context\EFContext.cs" />
+    <Compile Include="Migrations\201811222235001_SalaAndReserva.cs" />
+    <Compile Include="Migrations\201811222235001_SalaAndReserva.Designer.cs">
+      <DependentUpon>201811222235001_SalaAndReserva.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CacheRepositoryBase.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
@@ -106,6 +111,11 @@
       <Project>{54EC5EED-C90E-4334-AD91-1EA9AFEA83AD}</Project>
       <Name>Reserva.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201811222235001_SalaAndReserva.resx">
+      <DependentUpon>201811222235001_SalaAndReserva.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,29 +1,35 @@
 ﻿using System;
-using System.Data.Entity;
-using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using Reserva.Data.Context;
 using Reserva.Domain.Entities;
+using Reserva.Domain.Interfaces.Data.Repositories;
 
 namespace Reserva.Web.Controllers
 {
     public class UsuariosController : Controller
     {
-        private readonly EFContext db = new EFContext();
+        private readonly IRepository<Usuario, Guid> _usrRepository;
+
+        public UsuariosController(IRepository<Usuario, Guid> usrRepository)
+        {
+            _usrRepository = usrRepository;
+        }
 
         // GET: Usuarios
         public ActionResult Index()
         {
-            return View(db.Clientes.ToList());
+            return View(_usrRepository.Query());
         }
 
         // GET: Usuarios/Details/5
         public ActionResult Details(Guid? id)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            var usuario = db.Clientes.Find(id);
+
+            var usuario = _usrRepository.GetById(id.Value);
+
             if (usuario == null) return HttpNotFound();
+
             return View(usuario);
         }
 
@@ -44,8 +50,9 @@ namespace Reserva.Web.Controllers
             if (ModelState.IsValid)
             {
                 usuario.Codigo = Guid.NewGuid();
-                db.Clientes.Add(usuario);
-                db.SaveChanges();
+                _usrRepository.Insert(usuario);
+                _usrRepository.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
@@ -56,8 +63,11 @@ namespace Reserva.Web.Controllers
         public ActionResult Edit(Guid? id)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            var usuario = db.Clientes.Find(id);
+
+            var usuario = _usrRepository.GetById(id.Value);
+
             if (usuario == null) return HttpNotFound();
+
             return View(usuario);
         }
 
@@ -71,8 +81,8 @@ namespace Reserva.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(usuario).State = EntityState.Modified;
-                db.SaveChanges();
+                _usrRepository.Update(usuario);
+                _usrRepository.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -84,7 +94,7 @@ namespace Reserva.Web.Controllers
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var usuario = db.Clientes.Find(id);
+            var usuario = _usrRepository.GetById(id.Value);
 
             if (usuario == null) return HttpNotFound();
 
@@ -97,20 +107,20 @@ namespace Reserva.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            var usuario = db.Clientes.Find(id);
+            var usuario = _usrRepository.GetById(id);
 
             if (usuario == null)
                 return HttpNotFound();
 
-            db.Clientes.Remove(usuario);
-            db.SaveChanges();
+            _usrRepository.Remove(usuario);
+            _usrRepository.SaveChanges();
 
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing) db.Dispose();
+            if (disposing) _usrRepository.Dispose();
 
             base.Dispose(disposing);
         }
