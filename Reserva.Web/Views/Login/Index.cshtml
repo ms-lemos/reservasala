@@ -1,0 +1,73 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout_Blank.cshtml";
+    ViewBag.Title = "Login";
+}
+@model Reserva.Domain.Entities.Usuario
+
+<div class="login-container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center m-b-md">
+                <img src="~/Images/logo.png" alt="Jarvis" style="width: 170px;"/>
+            </div>
+            <div class="hpanel">
+                <div class="panel-body">
+
+                    @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+                    {
+                        if (ViewData.ModelState.Keys.Any(k => ViewData.ModelState[k].Errors.Any()))
+                        {
+                            <div class="alert alert-danger alert-error">
+                                <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                @Html.ValidationSummary(false)
+                            </div>
+                        }
+
+                        <div class="form-group">
+                            @Html.LabelFor(a => a.NomeUsuario, new { @class = "control-label" })
+                            @Html.TextBoxFor(a => a.NomeUsuario, new { @class = "form-control", required = "" })
+                            @Html.ValidationMessageFor(a => a.NomeUsuario)
+                            @* <label class="control-label" for="txtEmail">E-mail</label>
+                                <input type="email" placeholder="exemplo@gmail.com" title="Por favor, digite seu e-mail" id="txtEmail" class="form-control" required>
+                                <span class="help-block small">Your unique username to app</span>*@
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(a => a.Senha, new { @class = "control-label" })
+                            @Html.PasswordFor(a => a.Senha, new { @class = "form-control", required = "" })
+                            @Html.ValidationMessageFor(a => a.Senha)
+
+                            @*<label class="control-label" for="txtSenha">Senha</label>
+                                <input type="password" placeholder="******" title="Por favor, digite sua senha" id="txtSenha" class="form-control" required>*@
+                        </div>
+                        <input type="submit" class="btn btn-bmp btn-block" value="Entrar" />
+                        //  @Html.ActionLink("Esqueci minha Senha", "PasswordRecovery", null, new { @class = "btn btn-default btn-block" })
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <strong>Reserva</strong>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/bundles/sweetAlert/css")
+    @Styles.Render("~/bundles/toastr/css")
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/sweetAlert/js")
+    @Scripts.Render("~/bundles/toastr/js")
+
+    <script type="text/javascript">
+        $(document)
+            .ready(function () {
+                if ('@ViewBag.Message')
+                    toastr.error('@ViewBag.Message');
+            });
+    </script>
+
+}

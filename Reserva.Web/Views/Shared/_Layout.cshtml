@@ -1,0 +1,253 @@
+﻿@using Forloop.HtmlHelpers
+@using Reserva.Web.Helpers
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Reserva | @ViewBag.Title</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+
+    <!-- Primary vendor style -->
+    @Styles.Render("~/bundles/font-awesome/css")
+    @Styles.Render("~/bundles/animate/css")
+    @Styles.Render("~/bundles/bootstrap/css")
+    @Styles.Render("~/bundles/peicon7stroke/css")
+    @Styles.Render("~/bundles/datatables/css")
+
+
+    <!-- Add local styles, mostly for plugins css file -->
+    @if (IsSectionDefined("Styles"))
+    {@RenderSection("Styles", required: false)}
+
+    <!-- Primary HOMER style -->
+    @Styles.Render("~/bundles/homer/css")
+
+    <style>
+        /* The switch - the box around the slider */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 24px;
+        }
+
+            /* Hide default HTML checkbox */
+            .switch input {
+                display: none;
+            }
+
+        /* The slider */
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 16px;
+                width: 16px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(16px);
+            -ms-transform: translateX(16px);
+            transform: translateX(16px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 24px;
+        }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
+    </style>
+</head>
+<body class="@Html.PageClass()">
+    <!-- Simple splash screen-->
+    <div class="splash"> <div class="color-line"></div><div class="splash-title"><h1>Reserva</h1><div class="spinner"> <div class="rect1"></div> <div class="rect2"></div> <div class="rect3"></div> <div class="rect4"></div> <div class="rect5"></div> </div> </div> </div>
+    <!--[if lt IE 7]>
+    <p class="alert alert-danger">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <!-- Header -->
+    <div id="header">
+        <div class="color-line">
+        </div>
+        <div id="logo" class="light-version">
+                <img src="/Images/logo.png" alt="Reserva" style="width: 50px;">
+        </div>
+        <nav role="navigation">
+            <div class="header-link hide-menu"><i class="fa fa-bars"></i></div>
+            <div class="small-logo">
+                <span class="text-primary">Reserva</span>
+            </div>
+
+            <div class="mobile-menu">
+                <button type="button" class="navbar-toggle mobile-menu-toggle" data-toggle="collapse" data-target="#mobile-collapse">
+                    <i class="fa fa-chevron-down"></i>
+                </button>
+                <div class="collapse mobile-navbar" id="mobile-collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a class="" href="@Url.Action("Index", "Login")">Login</a>
+                        </li>
+                        <li>
+                            <a class="" href="@Url.Action("Logout", "Login")">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="navbar-right">
+                <ul class="nav navbar-nav no-borders">
+                    <li class="dropdown" id="dropdown-configs">
+                        <a class="dropdown-toggle" href="#" @*data-toggle="dropdown"*@ aria-expanded="true">
+                            <i class="pe-7s-config"></i>
+                        </a>
+                        <ul class="dropdown-menu hdropdown notification animated flipInX">
+                            <li style="min-width: 165px;">
+                                Atualização automática
+                                <div class="m-t-xs" style="display: flex;">
+                                    <label class="switch m-t-xs">
+                                        <input type="checkbox" id="check-auto-update">
+                                        <span class="slider round"></span>
+                                    </label>
+
+                                    <select class="m-l-md" id="select-auto-update">
+                                        <option value="30000" selected="selected">30 s</option>
+                                        <option value="60000">1 min</option>
+                                        <option value="300000">5 min</option>
+                                        <option value="600000">10 min</option>
+                                        <option value="900000">15 min</option>
+                                        <option value="1800000">30 min</option>
+                                        <option value="3600000">60 min</option>
+                                    </select>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="@Url.Action("Logout", "Login")">
+                            <i class="pe-7s-upload pe-rotate-90"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <!-- Navigation -->
+    <aside id="menu">
+        @Html.Partial("_Navigation")
+    </aside>
+    <!-- Main view  -->
+    <div id="wrapper">
+        @RenderBody()
+
+        <!-- Footer-->
+        @Html.Partial("_Footer")
+    </div>
+    <!-- Section for main scripts render -->
+    @Scripts.Render("~/bundles/jquery/js")
+    @Scripts.Render("~/bundles/bootstrap/js")
+    @Scripts.Render("~/bundles/homer/js")
+    @Scripts.Render("~/bundles/datatables/js")
+
+    @RenderSection("modals", required: false)
+    <!-- Handler for local scripts -->
+    @RenderSection("scripts", required: false)
+    @Html.RenderScripts()
+
+    <script type="text/javascript">
+
+        var handle;
+
+        $(function () {
+            $('#dropdown-configs a').on('click', function (event) {
+                $(this).parent().toggleClass('open');
+            });
+
+            $('body').on('click', function (e) {
+                if (!$('#dropdown-configs').is(e.target)
+                    && $('#dropdown-configs').has(e.target).length === 0
+                    && $('.open').has(e.target).length === 0
+                ) {
+                    $('#dropdown-configs').removeClass('open');
+                }
+            });
+
+            $("#check-auto-update").change(function () {
+                var checked = $(this).prop('checked');
+
+                localStorage.isAutoUpdate = checked;
+
+                if (checked) {
+                    $('#select-auto-update').prop('disabled', false);
+                    $('#select-auto-update').show();
+                } else {
+                    $('#select-auto-update').prop('disabled', 'disabled');
+                    $('#select-auto-update').hide();
+                }
+
+                setHandle(checked);
+            });
+
+            $('#select-auto-update').change(function () {
+
+                localStorage.autoUpdateMs = $(this).val();
+
+                // Mudança de valor, para e inicia novamente
+                setHandle(false);
+                setHandle(true);
+            });
+
+            if (localStorage.autoUpdateMs)
+                $('#select-auto-update').val(localStorage.autoUpdateMs);
+
+            $("#check-auto-update").prop('checked', localStorage.isAutoUpdate === 'true');
+            $("#check-auto-update").trigger("change");
+
+            function runAllUpdates() {
+                $(".update-btn").trigger("click");
+            }
+
+            function setHandle(enabled) {
+                var intervalo = $('#select-auto-update').val();
+
+                if (enabled) {
+                    handle = setInterval(runAllUpdates, intervalo);
+                } else {
+                    clearInterval(handle);
+                    handle = 0;
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

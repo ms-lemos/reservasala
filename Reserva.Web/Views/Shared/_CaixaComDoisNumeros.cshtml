@@ -1,0 +1,60 @@
+﻿@using Reserva.Web.Helpers
+@model Reserva.Web.ViewModels.TabelaVm
+
+<div class="hpanel" style="margin-bottom: 0;">
+    <div class="panel-heading hbuilt">
+        <div class="panel-tools">
+            <a class="showhide">
+                <i class="fa fa-chevron-up"></i>
+            </a>
+            <a class="closebox">
+                <i class="fa fa-times"></i>
+            </a>
+        </div>
+        @Model.Descricao
+    </div>
+    <div class="panel-body text-center" style="border-top: 2px solid @ColorHelper.Random();">
+        <div class="row" style="margin-bottom: 20px;">
+
+            @{
+                var col = Model.QtdeErro < 0 || Model.QtdeFila < 0 ? "col-lg-12" : "col-lg-6";
+            }
+
+            @if (Model.QtdeErro >= 0)
+            {
+                <div class="@col">
+                    @Ajax.MyActionLink(
+                            @<div>
+                                <div class="font-bold text-center">Erros <i class="fa fa-exclamation-triangle text-danger"></i></div>
+                                <h3 class="no-margins text-center font-extra-bold text-danger\">@Model.QtdeErro</h3>
+                            </div>,
+                         Model.ActionErro,
+                         new { db = Model.Id },
+                         new AjaxOptions
+                         {
+                             UpdateTargetId = "modal-detalhe-body",
+                             OnComplete = "abreModalDetalhe('" + Model.Descricao + " - Erros');"
+                         })
+                </div>
+            }
+            @if (Model.QtdeFila >= 0)
+            {
+                <div class="@col">
+                    @Ajax.MyActionLink(
+                            @<div>
+                                <div class="font-bold text-center">Fila <i class="fa fa-level-up text-success"></i></div>
+                                <h3 class="no-margins text-center font-extra-bold text-success">@Model.QtdeFila</h3>
+                            </div>,
+                         Model.ActionFila,
+                         new { db = Model.Id },
+                         new AjaxOptions
+                         {
+                             UpdateTargetId = "modal-detalhe-body",
+                             OnComplete = "abreModalDetalhe('" + Model.Descricao + " - Fila');"
+                         })
+
+                </div>
+            }
+        </div>
+    </div>
+</div>
