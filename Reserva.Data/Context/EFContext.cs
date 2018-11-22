@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
+using Reserva.Domain.Entities;
 
 namespace Reserva.Data.Context
 {
-    public class EFContext<TEntity> : DbContext
+    public class EFContext : DbContext
     {
-        public EFContext(string database)
-            : base(database)
+        public EFContext()
+            : base("LocalDB")
         {
-            Database.SetInitializer<EFContext<TEntity>>(null);
         }
 
         public override int SaveChanges()
@@ -38,7 +38,7 @@ namespace Reserva.Data.Context
                 }
             return base.SaveChanges();
         }
-
-
+        
+        public DbSet<Usuario> Clientes { get; set; }
     }
 }

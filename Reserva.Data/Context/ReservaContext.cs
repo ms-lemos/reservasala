@@ -10,11 +10,11 @@ namespace Reserva.Data.Context
 	[UsedImplicitly]
 	public class ReservaContext<TEntity> : IDbContext<TEntity>, IDisposable where TEntity : class
 	{
-		private readonly EFContext<TEntity> _db;
+		private readonly EFContext _db;
 
-		public ReservaContext(string database)
+		public ReservaContext()
 		{
-			_db = new EFContext<TEntity>(database);
+			_db = new EFContext();
 		}
         
         public TEntity GetById<TIdType>(TIdType id, bool nolock = false) 

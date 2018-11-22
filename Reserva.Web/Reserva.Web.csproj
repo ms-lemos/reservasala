@@ -161,6 +161,7 @@
     <Compile Include="Controllers\CommonViewsController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Helpers\AjaxExtensions.cs" />
     <Compile Include="Helpers\Color.cs" />
     <Compile Include="Infra\Sessao.cs" />
@@ -2156,6 +2157,11 @@
     <Content Include="Views\Shared\_ModalDetalhe.cshtml" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
     <Content Include="Views\CommonViews\Index.cshtml" />
+    <Content Include="Views\Usuarios\Create.cshtml" />
+    <Content Include="Views\Usuarios\Delete.cshtml" />
+    <Content Include="Views\Usuarios\Details.cshtml" />
+    <Content Include="Views\Usuarios\Edit.cshtml" />
+    <Content Include="Views\Usuarios\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2719,6 +2725,10 @@
     <ProjectReference Include="..\Reserva.Crosscutting\Reserva.Crosscutting.csproj">
       <Project>{BF452765-61AD-474D-A95E-3395473E6A9F}</Project>
       <Name>Reserva.Crosscutting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Reserva.Data\Reserva.Data.csproj">
+      <Project>{39afbe53-97c0-48fd-8509-c2ec7054d43a}</Project>
+      <Name>Reserva.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Reserva.Domain\Reserva.Domain.csproj">
       <Project>{54EC5EED-C90E-4334-AD91-1EA9AFEA83AD}</Project>

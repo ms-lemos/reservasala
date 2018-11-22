@@ -1,46 +1,47 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Reserva.Domain.Entities;
+using Reserva.Domain.Interfaces.Data.Repositories;
 using Reserva.Web.Infra;
 
 namespace Reserva.Web.Controllers
 {
     public class LoginController : Controller
     {
+        private readonly IRepository<Usuario, Guid> _usrRepo;
+
+        public LoginController(IRepository<Usuario, Guid> usrRepo)
+        {
+            _usrRepo = usrRepo;
+        }
+
         public ActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Login(Usuario u)
+        public ActionResult Login(Usuario view)
         {
-            if (!ModelState.IsValid) return View("Index", u);
+            if (!ModelState.IsValid) return View("Index", view);
 
             try
             {
-                if (u.NomeUsuario == "admin" && u.Senha == "admin")
-                {
-                    u.Cargo = "Administrador";
-                    u.Permissoes = new List<string>{"security", "processos"};
-                }
-                else if (u.NomeUsuario == "usuario" && u.Senha == "1234")
-                {
-                    u.Cargo = "Usuário";
-                    u.Permissoes = new List<string>{"processos"};
-                }
-                else
-                {
-                    throw new Exception("Login ou senha inválidos.");
-                }
+                var fromDb = _usrRepo.Query(u => u.Login == view.Login).FirstOrDefault();
 
-                Sessao.GravaSessao(u);
+                if (fromDb == null)
+                    throw new Exception("Login ou senha inválidos.");
+
+                if (fromDb.Login != view.Login || fromDb.Senha != view.Senha)
+                    throw new Exception("Login ou senha inválidos.");
+               
+                Sessao.GravaSessao(fromDb);
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("LogOnError", ex.Message);
-                return View("Index", u);
+                return View("Index", view);
             }
 
             return RedirectToAction("Index", "Dashboard");

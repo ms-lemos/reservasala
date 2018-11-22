@@ -12,7 +12,7 @@ namespace Reserva.Web.Controllers
             if (usr == null)
                 return RedirectToAction("Index", "Login");
 
-            return View();
+            return RedirectToAction("Index", "CommonViews");
         }
 
 
