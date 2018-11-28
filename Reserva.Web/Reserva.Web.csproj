@@ -2169,6 +2169,7 @@
     <Content Include="Views\Salas\Details.cshtml" />
     <Content Include="Views\Salas\Edit.cshtml" />
     <Content Include="Views\Salas\Index.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,6 +1,5 @@
-﻿using System.Web.Mvc;
-using Reserva.Web.Attributes;
-using Reserva.Web.Infra;
+﻿using Reserva.Web.Infra;
+using System.Web.Mvc;
 
 namespace Reserva.Web.Controllers
 {
@@ -12,19 +11,6 @@ namespace Reserva.Web.Controllers
             if (usr == null)
                 return RedirectToAction("Index", "Login");
 
-            return RedirectToAction("Index", "CommonViews");
-        }
-
-
-        [Permissao("security")]
-        public ActionResult Admin()
-        {
-            return View();
-        }
-
-        [Permissao("processos")]
-        public ActionResult Usuario()
-        {
             return View();
         }
     }

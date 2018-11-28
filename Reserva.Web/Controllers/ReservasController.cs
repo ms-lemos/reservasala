@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
@@ -9,26 +10,42 @@ using Reserva.Domain.Interfaces.Data.Repositories;
 
 namespace Reserva.Web.Controllers
 {
+    [RoutePrefix("Reservas")]
     public class ReservasController : ApiController
     {
         private readonly IRepository<ReservaSala, Guid> _reservaRepository;
+        private readonly IRepository<Usuario, Guid> _usuarioRepository;
+        private readonly IRepository<Sala, Guid> _salaRepository;
 
-        public ReservasController(IRepository<ReservaSala, Guid> reservaRepository)
+        public ReservasController(IRepository<ReservaSala, Guid> reservaRepository, IRepository<Sala, Guid> salaRepository, IRepository<Usuario, Guid> usuarioRepository)
         {
             _reservaRepository = reservaRepository;
+            _salaRepository = salaRepository;
+            _usuarioRepository = usuarioRepository;
         }
 
-        // GET: api/Reservas
-        public IQueryable<ReservaSala> GetReservas()
+        // GET: api/Reservas?start=2018-10-28&end=2018-12-09&_=1543356064578
+        [HttpGet]
+        [Route("")]
+        public IList Get(DateTime start, DateTime end)
         {
-            return _reservaRepository.Query();
+            var reservaSalas = _reservaRepository.Query(a => a.DtInicio > start && a.DtFim < end).ToList();
+            foreach (var reservaSala in reservaSalas)
+            {
+                reservaSala.Usuario = _usuarioRepository.GetById(reservaSala.UsuarioCodigo);
+                reservaSala.Sala = _salaRepository.GetById(reservaSala.SalaCodigo);
+            }
+            return reservaSalas;
         }
 
-        // GET: api/Reservas/5
+
+        [HttpGet]
+        [Route("{id:guid}")]
         [ResponseType(typeof(ReservaSala))]
-        public IHttpActionResult GetReserva(Guid id)
+        public IHttpActionResult Get(Guid id)
         {
-            ReservaSala reserva = _reservaRepository.GetById(id);
+            var reserva = _reservaRepository.GetById(id);
+
             if (reserva == null)
             {
                 return NotFound();
@@ -39,22 +56,24 @@ namespace Reserva.Web.Controllers
 
         // PUT: api/Reservas/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutReserva(int id, ReservaSala reserva)
+        [Route("{id:guid}")]
+        [HttpPut]
+        public IHttpActionResult Put(Guid id, ReservaSala reserva)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != reserva.ID)
+            if (id != reserva.Codigo)
             {
                 return BadRequest();
             }
 
-            _reservaRepository.Update(reserva);
 
             try
             {
+                _reservaRepository.Update(reserva);
                 _reservaRepository.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
@@ -72,7 +91,8 @@ namespace Reserva.Web.Controllers
 
         // POST: api/Reservas
         [ResponseType(typeof(ReservaSala))]
-        public IHttpActionResult PostReserva(ReservaSala reserva)
+        [HttpPost]
+        public IHttpActionResult Post(ReservaSala reserva)
         {
             if (!ModelState.IsValid)
             {
@@ -87,7 +107,8 @@ namespace Reserva.Web.Controllers
 
         // DELETE: api/Reservas/5
         [ResponseType(typeof(ReservaSala))]
-        public IHttpActionResult DeleteReserva(Guid id)
+        [HttpDelete]
+        public IHttpActionResult Delete(Guid id)
         {
             var reserva = _reservaRepository.GetById(id);
             if (reserva == null)
@@ -105,14 +126,16 @@ namespace Reserva.Web.Controllers
         {
             if (disposing)
             {
-                _reservaRepository.Dispose();
+                _reservaRepository?.Dispose();
+                _salaRepository?.Dispose();
+                _usuarioRepository?.Dispose();
             }
             base.Dispose(disposing);
         }
 
-        private bool ReservaExists(int id)
+        private bool ReservaExists(Guid id)
         {
-            return _reservaRepository.Query(e => e.ID == id).Any();
+            return _reservaRepository.Query(e => e.Codigo == id).Any();
         }
     }
 }

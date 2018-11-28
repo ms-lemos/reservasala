@@ -95,12 +95,13 @@ namespace Reserva.Web
 
             // Moment
             bundles.Add(new ScriptBundle("~/bundles/moment/js").Include(
-                      "~/Vendor/moment/moment.js",
-					  "~/Vendor/moment/locale/pt-br.js"));
+                "~/Vendor/moment/moment.js",
+                "~/Vendor/moment/locale/pt-br.js"));
 
             // Full Calendar
             bundles.Add(new ScriptBundle("~/bundles/fullCalendar/js").Include(
-                      "~/Vendor/fullcalendar/dist/fullcalendar.min.js"));
+                      "~/Vendor/fullcalendar/dist/fullcalendar.min.js",
+                "~/Vendor/fullcalendar/dist/lang/pt-br.js"));
 
             // Full Calendar style
             bundles.Add(new StyleBundle("~/bundles/fullCalendar/css").Include(
@@ -159,7 +160,7 @@ namespace Reserva.Web
             // Datepicker
             bundles.Add(new ScriptBundle("~/bundles/datepicker/js").Include(
                       "~/Vendor/bootstrap-datepicker-master/dist/js/bootstrap-datepicker.min.js",
-					  "~/Vendor/bootstrap-datepicker-master/dist/locales/bootstrap-datepicker.pt-BR.min.js"));
+                      "~/Vendor/bootstrap-datepicker-master/dist/locales/bootstrap-datepicker.pt-BR.min.js"));
             // Datepicker style
             bundles.Add(new StyleBundle("~/bundles/datepicker/css").Include(
                       "~/Vendor/bootstrap-datepicker-master/dist/css/bootstrap-datepicker3.min.css"));
@@ -234,7 +235,7 @@ namespace Reserva.Web
 
             // DateTimePicker
             bundles.Add(new ScriptBundle("~/bundles/datetimepicker/js").Include(
-					  "~/Vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"));
+                      "~/Vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"));
 
             // DateTimePicker style
             bundles.Add(new StyleBundle("~/bundles/datetimepicker/css").Include(

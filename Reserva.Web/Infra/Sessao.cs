@@ -1,14 +1,15 @@
 ﻿using System.Web;
+using Reserva.Domain.Entities;
 
 namespace Reserva.Web.Infra
 {
 	public static class Sessao
 	{
-		public static dynamic UsuarioAtivo
+		public static Usuario UsuarioAtivo
 		{
 			get
 			{
-				var usuario = (dynamic)HttpContext.Current.Session["Usuario"];
+				var usuario = (Usuario)HttpContext.Current.Session["Usuario"];
 
 				return usuario;
 			}
