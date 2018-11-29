@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
@@ -27,7 +27,7 @@ namespace Reserva.Web.Controllers
         // GET: api/Reservas?start=2018-10-28&end=2018-12-09&_=1543356064578
         [HttpGet]
         [Route("")]
-        public IList Get(DateTime start, DateTime end)
+        public IList<ReservaSala> Get(DateTime start, DateTime end)
         {
             var reservaSalas = _reservaRepository.Query(a => a.DtInicio > start && a.DtFim < end).ToList();
             foreach (var reservaSala in reservaSalas)
@@ -70,9 +70,13 @@ namespace Reserva.Web.Controllers
                 return BadRequest();
             }
 
-
             try
             {
+                if (ReservaExistsDataSala(reserva))
+                {
+                    return BadRequest("Já existe reserva para esta sala para esta data.");
+                }
+
                 _reservaRepository.Update(reserva);
                 _reservaRepository.SaveChanges();
             }
@@ -92,6 +96,7 @@ namespace Reserva.Web.Controllers
         // POST: api/Reservas
         [ResponseType(typeof(ReservaSala))]
         [HttpPost]
+        [Route("")]
         public IHttpActionResult Post(ReservaSala reserva)
         {
             if (!ModelState.IsValid)
@@ -99,14 +104,21 @@ namespace Reserva.Web.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (ReservaExistsDataSala(reserva))
+            {
+                return BadRequest("Já existe reserva para esta sala para esta data.");
+            }
+
+            reserva.Codigo = Guid.NewGuid();
             _reservaRepository.Insert(reserva);
             _reservaRepository.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = reserva.ID }, reserva);
+            return CreatedAtRoute("", reserva, reserva);
         }
 
         // DELETE: api/Reservas/5
         [ResponseType(typeof(ReservaSala))]
+        [Route("{id:guid}")]
         [HttpDelete]
         public IHttpActionResult Delete(Guid id)
         {
@@ -135,7 +147,12 @@ namespace Reserva.Web.Controllers
 
         private bool ReservaExists(Guid id)
         {
-            return _reservaRepository.Query(e => e.Codigo == id).Any();
+            return _reservaRepository.HasAny(e => e.Codigo == id);
+        }
+
+        private bool ReservaExistsDataSala(ReservaSala r)
+        {
+            return _reservaRepository.HasAny(e => e.DtInicio < r.DtInicio && e.DtFim > r.DtFim && e.SalaCodigo == r.SalaCodigo);
         }
     }
 }

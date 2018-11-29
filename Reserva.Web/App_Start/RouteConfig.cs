@@ -12,7 +12,7 @@ namespace Reserva.Web
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "CommonViews", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Dashboard", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

@@ -16,6 +16,12 @@ namespace Reserva.Web.Controllers
             _salasRepository = salasRepository;
         }
 
+        [HttpGet]
+        public JsonResult GetAll()
+        {
+            return Json(_salasRepository.Query().ToList(), JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Salas
         public ActionResult Index()
         {

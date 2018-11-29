@@ -84,6 +84,6 @@ public class NinjectDependencyResolver : NinjectDependencyScope, IDependencyReso
 
     public IDependencyScope BeginScope()
     {
-        return new NinjectDependencyScope(this.kernel.BeginBlock());
+        return new NinjectDependencyScope(kernel.BeginBlock());
     }
 }

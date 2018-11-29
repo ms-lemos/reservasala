@@ -5,47 +5,60 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="hpanel">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-2">
+                        <h4>Detalhes Sala</h4>
 
-<div>
-    <h4>Sala</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ID)
-        </dt>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Codigo)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ID)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Codigo)
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Capacidade)
-        </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Capacidade)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Capacidade)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Capacidade)
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Identificacao)
-        </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Identificacao)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Identificacao)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Identificacao)
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Descricao)
-        </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Descricao)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Descricao)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Descricao)
+                        </dd>
 
-    </dl>
+                    </dl>
+                </div>
+                <div class="row">
+                    @Html.ActionLink("Editar", "Edit", new { id = Model.Codigo }, new { @class = "btn btn-warning" }) 
+                    @Html.ActionLink("Voltar à lista", "Index", null, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Codigo }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
