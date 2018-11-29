@@ -9,6 +9,12 @@
 @section Styles
 {
     @Styles.Render("~/bundles/fullCalendar/css", "~/bundles/sweetAlert/css", "~/bundles/datetimepicker/css")
+    
+    <style>
+        .fc-day-grid-event>.fc-content {
+            white-space: normal;
+        }
+    </style>
 }
 
 <div class="row">
@@ -150,10 +156,12 @@
                     });
                 },
                 eventRender: function(event, element) {
-                    $(element).children().html($(element).children().html() +
-                        '<a class="closebox remover-evento" style="color: white;" data-codigo="' +
-                        event._id +
-                        '"><i class="fa fa-times"></i></a>');
+                    if (event.dados.Usuario.Codigo == meuCodigo) {
+                        $(element).children().html($(element).children().html() +
+                            '&nbsp;&nbsp;&nbsp;<a class="closebox remover-evento" style="color: white; background: transparent;" data-codigo="' +
+                            event._id +
+                            '"><i class="fa fa-times"></i></a>');
+                    }
                 },
                 eventAfterAllRender: function() {
                     $(".remover-evento").click(function() {
@@ -199,17 +207,26 @@
             function getSuccess(doc, callback) {
                 var events = [];
 
-                for (var i in doc) {
-                    if (doc.hasOwnProperty(i)) {
-                        var evento = doc[i];
-                        events.push({
-                            title: evento.Usuario.Nome,
-                            start: evento.DtInicio,
-                            end: evento.DtFim,
-                            editable: evento.Usuario.Codigo == meuCodigo,
-                            id: evento.Codigo,
-                            dados: evento
-                        });
+                var grupos = groupBy(doc, 'SalaCodigo');
+                for (var j in grupos) {
+                    if (grupos.hasOwnProperty(j)) {
+                        var grupo = grupos[j];
+                        var corGrupo = getRandomColor();
+
+                        for (var i in grupo) {
+                            if (doc.hasOwnProperty(i)) {
+                                var evento = grupo[i];
+                                events.push({
+                                    title: evento.Sala.Descricao + " (" + evento.Usuario.Nome + ")",
+                                    start: evento.DtInicio,
+                                    end: evento.DtFim,
+                                    editable: evento.Usuario.Codigo == meuCodigo,
+                                    id: evento.Codigo,
+                                    dados: evento,
+                                    color: corGrupo
+                                });
+                            }
+                        }
                     }
                 }
 
@@ -272,13 +289,13 @@
                     data: dados,
                     success: function() {
                         swal({
-                            title: "Sucesso!",
-                            text: "Reserva criada com sucesso.",
-                            type: "success",
+                                title: "Sucesso!",
+                                text: "Reserva criada com sucesso.",
+                                type: "success",
                                 confirmButtonText: "Ok",
                                 closeOnConfirm: true
                             },
-                            function (isConfirm) { location.reload(); });
+                            function(isConfirm) { location.reload(); });
 
                     },
                     error: function(result) {
@@ -300,5 +317,12 @@
             }
         });
 
+        var groupBy = function(xs, key) {
+            return xs.reduce(function(rv, x) {
+                    (rv[x[key]] = rv[x[key]] || []).push(x);
+                    return rv;
+                },
+                {});
+        };
     </script>
 }

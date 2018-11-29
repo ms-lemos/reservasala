@@ -4,10 +4,11 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using Reserva.Web.Attributes;
 
 namespace Reserva.Web.Controllers
 {
-    public class SalasController : Controller
+    public class SalasController : BaseController
     {
         private readonly IRepository<Sala, Guid> _salasRepository;
 
@@ -23,12 +24,14 @@ namespace Reserva.Web.Controllers
         }
 
         // GET: Salas
+        [Permissao("security")]
         public ActionResult Index()
         {
             return View(_salasRepository.Query().ToList());
         }
 
         // GET: Salas/Details/5
+        [Permissao("security")]
         public ActionResult Details(Guid? id)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -41,6 +44,7 @@ namespace Reserva.Web.Controllers
         }
 
         // GET: Salas/Create
+        [Permissao("security")]
         public ActionResult Create()
         {
             return View();
@@ -51,6 +55,7 @@ namespace Reserva.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Permissao("security")]
         public ActionResult Create([Bind(Include = "Codigo,ID,Capacidade,Identificacao,Descricao")]
             Sala sala)
         {
@@ -68,6 +73,7 @@ namespace Reserva.Web.Controllers
         }
 
         // GET: Salas/Edit/5
+        [Permissao("security")]
         public ActionResult Edit(Guid? id)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -84,6 +90,7 @@ namespace Reserva.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Permissao("security")]
         public ActionResult Edit([Bind(Include = "Codigo,ID,Capacidade,Identificacao,Descricao")]
             Sala sala)
         {
@@ -99,6 +106,7 @@ namespace Reserva.Web.Controllers
         }
 
         // GET: Salas/Delete/5
+        [Permissao("security")]
         public ActionResult Delete(Guid? id)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -114,6 +122,7 @@ namespace Reserva.Web.Controllers
         [HttpPost]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Permissao("security")]
         public ActionResult DeleteConfirmed(Guid id)
         {
             var sala = _salasRepository.GetById(id);

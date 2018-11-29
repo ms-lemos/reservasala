@@ -38,7 +38,7 @@ namespace Reserva.Web.Controllers
                 return;
             }
 
-            if (Sessao.UsuarioAtivo.Permissoes.Contains(atributo.PermissaoRequerida)) return;
+            if (Sessao.UsuarioAtivo.Cargo.Contains(atributo.PermissaoRequerida)) return;
 
             if (filterContext.IsChildAction) return;
 

@@ -3,10 +3,12 @@ using System.Net;
 using System.Web.Mvc;
 using Reserva.Domain.Entities;
 using Reserva.Domain.Interfaces.Data.Repositories;
+using Reserva.Web.Attributes;
 
 namespace Reserva.Web.Controllers
 {
-    public class UsuariosController : Controller
+    [Permissao("security")]
+    public class UsuariosController : BaseController
     {
         private readonly IRepository<Usuario, Guid> _usrRepository;
 
