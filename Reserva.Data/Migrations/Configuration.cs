@@ -1,16 +1,18 @@
 namespace Reserva.Data.Migrations
 {
+    using System;
+    using System.Data.Entity;
     using System.Data.Entity.Migrations;
+    using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Context.EFContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Reserva.Data.Context.EFContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "Reserva.Data.Context.EFContext";
         }
 
-        protected override void Seed(Context.EFContext context)
+        protected override void Seed(Reserva.Data.Context.EFContext context)
         {
             //  This method will be called after migrating to the latest version.
 
